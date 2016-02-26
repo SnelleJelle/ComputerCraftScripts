@@ -1,0 +1,58 @@
+t = turtle
+teller = 0
+linksOfRechts = 1
+function det(i)
+  t.select(i)
+  return t.compare()
+end
+
+function move()
+  if det(1) then --fence
+    linksOfRechts = (linksOfRechts + 1) % 2
+      if linksOfRechts == 1 then
+        t.turnRight()
+        t.forward()
+        t.turnRight()
+      else
+          t.turnLeft()
+          t.forward()
+          t.turnLeft()
+      end
+  elseif det(2) then --tree
+    t.dig()
+    t.forward()
+    while t.detectUp() do --go up
+      teller = teller + 1
+      t.digUp()
+      t.up()
+    end
+    while teller ~= 0 do --go down
+    
+        while teller > 1 do
+        teller = teller - 1
+          t.digDown()
+          t.down()
+        end
+      if teller == 1 then
+      teller = teller - 1
+         t.select(3)
+         t.placeDown()
+         t.forward()
+         t.down()
+      end
+    end
+  elseif det(3) then --sapling
+    t.up()
+    t.forward()
+    t.forward()
+    t.down()
+  else
+    t.forward()
+    end
+    t.suck()
+end
+
+while true do
+move()
+end
+

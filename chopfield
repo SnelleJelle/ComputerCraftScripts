@@ -1,0 +1,66 @@
+--introduction
+  --slot 1 = wall identifier
+  --slot 2 = tree identifier
+  --slot 3 = sapling identifier
+  --slot 4 = new saplings(optional)
+
+--initialisation
+function moveForward() --recursive
+
+  --tree
+  if turtle.select(2) and turtle.compare(2) then
+    print("found tree")
+    dofile "choptree"
+  --sapling    
+  elseif turtle.select(3) and turtle.compare(3) then
+    print("found sapling")
+    turtle.up()
+    turtle.forward()
+    turtle.forward()
+    turtle.down()
+  --wall
+  elseif turtle.select(1) and turtle.compare(1) then
+    print("rotating")  
+    rotate()
+  else
+    turtle.forward()
+  end  
+end
+
+function rotate()
+
+  --look right
+  turtle.turnRight()
+  turtle.select(1)
+  if turtle.compare() or lastTurnRight == true then
+    --go left
+    turtle.turnLeft()
+    turtle.turnLeft()
+    turtle.forward()
+    turtle.turnLeft()
+    lastTurnRight = false
+  else
+    --go right
+    turtle.forward()
+    turtle.turnRight()
+    lastTurnRight = true
+  end
+end
+
+--start
+print("slot 1: wall block")
+print("slot 2: tree block")
+print("slot 3: sapling block")
+print("slot 4: new saplings(optional)")
+
+write("Ready to rumble? [y/n] ")
+if read() == "n" then
+  print("stopped")
+  return
+end
+
+print("starting")
+local lastTurnRight = true
+while true do
+  moveForward()
+end

@@ -1,0 +1,99 @@
+  --slot 1 = seeds
+
+--initialisation
+t = turtle
+left = "left"
+right = "right"
+
+function roam()
+  while not t.detect() do
+    --mine left
+    t.turnLeft()
+    t.dig()
+    t.select(1)
+    t.place()
+    t.turnRight()
+    --continue
+    t.forward()
+  end
+end
+
+function bank()
+  for i = 2, 16, 1 do
+    t.select(i)
+    t.drop(64)
+  end  
+  t.turnLeft()
+  t.turnLeft()
+end
+
+function rotate(direction)
+  if direction == right then
+    t.turnLeft()
+    t.dig()
+    t.select(1)
+    t.place()
+    t.turnRight()
+    t.turnRight()  
+    for i = 1, 3, 1 do --default
+      t.forward()
+    end
+    t.turnRight()
+  else
+    t.turnRight()
+    t.dig()
+    t.select(1)
+    t.place()
+    t.turnLeft()
+    t.turnLeft()
+    for i = 1, 3, 1 do --default
+      t.forward()
+    end
+    t.turnLeft()   
+  end
+end
+
+--start
+
+--check slots
+print("slot 1: seeds")
+
+write("Ready to rumble? [y/n] ")
+
+if read() == "n" then
+  return
+end
+
+--go 1
+roam()
+rotate(right)
+
+--go 2
+roam()
+rotate(left)
+
+--go 3
+roam()
+
+--360
+t.turnLeft()
+t.dig()
+t.select(1)
+t.place()
+t.turnLeft()
+
+--go back 3
+roam()
+rotate(right)
+
+--go back 2
+roam()
+rotate(left)
+
+--go back 1
+roam()
+
+bank()
+
+print("all done")
+

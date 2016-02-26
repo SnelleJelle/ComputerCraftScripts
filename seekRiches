@@ -1,0 +1,78 @@
+--intro
+--slot 1 to 4 = diamonds
+--slot 5 to 16 = gold ores
+
+--initialise
+t = turtle
+height = 0
+lastTurnRight = false
+
+function goDown()
+  while t.digDown() or t.down() do
+    height = height - 1
+    print("went down to: "..height)    
+  end
+end
+
+function goUp()
+  while height ~= 0 do
+    t.digUp()
+    t.up()
+    height = height + 1
+    print("went up to height: "..height)
+  end
+end
+
+function gatherRiches()
+  while t.getItemCount(16) ~= 64 or t.getItemCount(4) ~= 64 do
+    gather()
+    turn()
+  end
+end
+
+function gather()
+  t.dig()
+  t.forward()
+  for i = 1, 16, 1 do
+    t.digUp()
+    t.dig()
+    t.up()
+    height = height + 1
+  end
+  t.dig()
+  t.forward()
+  t.dig()
+  t.forward()
+  for i = 1, 16, 1 do
+    t.digDown()
+    t.dig()
+    t.down()
+    height = height - 1
+  end
+end
+
+function turn()
+  t.dig()
+  t.forward()
+  if lastTurnRight then
+    print("turning left")
+    t.turnLeft()--
+    t.dig()
+    t.forward()
+    t.turnLeft()
+    lastTurnRight = false
+  else
+    print("turning right")
+    t.turnRight()--
+    t.dig()
+    t.forward()
+    t.turnRight()
+    lastTurnRight = true  
+  end
+end
+
+--start
+
+goDown()
+gatherRiches()
+goUp()

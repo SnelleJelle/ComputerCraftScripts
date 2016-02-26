@@ -1,0 +1,21 @@
+--dig up
+local height = 0
+turtle.dig()
+turtle.forward()
+
+while turtle.detectUp() do
+  turtle.digUp()
+  turtle.up()
+  height = height + 1
+end
+
+--move back down
+for i = height, 2, -1 do
+  turtle.down()
+end
+
+--place sapling
+turtle.select(4)
+turtle.placeDown()
+turtle.forward()
+turtle.down()
